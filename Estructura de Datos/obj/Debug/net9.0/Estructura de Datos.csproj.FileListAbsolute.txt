@@ -1,0 +1,14 @@
+C:\Users\HP\PycharmProjects\Estructura de Datos\Estructura de Datos\bin\Debug\net9.0\Estructura de Datos.exe
+C:\Users\HP\PycharmProjects\Estructura de Datos\Estructura de Datos\bin\Debug\net9.0\Estructura de Datos.deps.json
+C:\Users\HP\PycharmProjects\Estructura de Datos\Estructura de Datos\bin\Debug\net9.0\Estructura de Datos.runtimeconfig.json
+C:\Users\HP\PycharmProjects\Estructura de Datos\Estructura de Datos\bin\Debug\net9.0\Estructura de Datos.dll
+C:\Users\HP\PycharmProjects\Estructura de Datos\Estructura de Datos\bin\Debug\net9.0\Estructura de Datos.pdb
+C:\Users\HP\PycharmProjects\Estructura de Datos\Estructura de Datos\obj\Debug\net9.0\Estructura de Datos.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\HP\PycharmProjects\Estructura de Datos\Estructura de Datos\obj\Debug\net9.0\Estructura de Datos.AssemblyInfoInputs.cache
+C:\Users\HP\PycharmProjects\Estructura de Datos\Estructura de Datos\obj\Debug\net9.0\Estructura de Datos.AssemblyInfo.cs
+C:\Users\HP\PycharmProjects\Estructura de Datos\Estructura de Datos\obj\Debug\net9.0\Estructura de Datos.csproj.CoreCompileInputs.cache
+C:\Users\HP\PycharmProjects\Estructura de Datos\Estructura de Datos\obj\Debug\net9.0\Estructura de Datos.dll
+C:\Users\HP\PycharmProjects\Estructura de Datos\Estructura de Datos\obj\Debug\net9.0\refint\Estructura de Datos.dll
+C:\Users\HP\PycharmProjects\Estructura de Datos\Estructura de Datos\obj\Debug\net9.0\Estructura de Datos.pdb
+C:\Users\HP\PycharmProjects\Estructura de Datos\Estructura de Datos\obj\Debug\net9.0\Estructura de Datos.genruntimeconfig.cache
+C:\Users\HP\PycharmProjects\Estructura de Datos\Estructura de Datos\obj\Debug\net9.0\ref\Estructura de Datos.dll
