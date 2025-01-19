@@ -12,3 +12,4 @@ C:\Users\HP\PycharmProjects\Estructura de Datos\Estructura de Datos\obj\Debug\ne
 C:\Users\HP\PycharmProjects\Estructura de Datos\Estructura de Datos\obj\Debug\net9.0\Estructura de Datos.pdb
 C:\Users\HP\PycharmProjects\Estructura de Datos\Estructura de Datos\obj\Debug\net9.0\Estructura de Datos.genruntimeconfig.cache
 C:\Users\HP\PycharmProjects\Estructura de Datos\Estructura de Datos\obj\Debug\net9.0\ref\Estructura de Datos.dll
+C:\Users\HP\PycharmProjects\Estructura de Datos\Estructura de Datos\obj\Debug\net9.0\Estructura de Datos.sourcelink.json
