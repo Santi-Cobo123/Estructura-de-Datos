@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\Estructura de Datos\\Estructura de Datos.csproj": {}
+    "C:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\Estructura de Datos\\Estructura de Datos.csproj": {}
   },
   "projects": {
-    "c:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\Estructura de Datos\\Estructura de Datos.csproj": {
+    "C:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\Estructura de Datos\\Estructura de Datos.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\Estructura de Datos\\Estructura de Datos.csproj",
+        "projectUniqueName": "C:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\Estructura de Datos\\Estructura de Datos.csproj",
         "projectName": "Estructura de Datos",
-        "projectPath": "c:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\Estructura de Datos\\Estructura de Datos.csproj",
+        "projectPath": "C:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\Estructura de Datos\\Estructura de Datos.csproj",
         "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\Estructura de Datos\\obj\\",
+        "outputPath": "C:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\Estructura de Datos\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config"
