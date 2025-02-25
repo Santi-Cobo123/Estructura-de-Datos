@@ -1,0 +1,15 @@
+C:\Users\HP\PycharmProjects\Estructura de Datos\MiNuevoProyecto\bin\Debug\net9.0\MiNuevoProyecto.exe
+C:\Users\HP\PycharmProjects\Estructura de Datos\MiNuevoProyecto\bin\Debug\net9.0\MiNuevoProyecto.deps.json
+C:\Users\HP\PycharmProjects\Estructura de Datos\MiNuevoProyecto\bin\Debug\net9.0\MiNuevoProyecto.runtimeconfig.json
+C:\Users\HP\PycharmProjects\Estructura de Datos\MiNuevoProyecto\bin\Debug\net9.0\MiNuevoProyecto.dll
+C:\Users\HP\PycharmProjects\Estructura de Datos\MiNuevoProyecto\bin\Debug\net9.0\MiNuevoProyecto.pdb
+C:\Users\HP\PycharmProjects\Estructura de Datos\MiNuevoProyecto\obj\Debug\net9.0\MiNuevoProyecto.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\HP\PycharmProjects\Estructura de Datos\MiNuevoProyecto\obj\Debug\net9.0\MiNuevoProyecto.AssemblyInfoInputs.cache
+C:\Users\HP\PycharmProjects\Estructura de Datos\MiNuevoProyecto\obj\Debug\net9.0\MiNuevoProyecto.AssemblyInfo.cs
+C:\Users\HP\PycharmProjects\Estructura de Datos\MiNuevoProyecto\obj\Debug\net9.0\MiNuevoProyecto.csproj.CoreCompileInputs.cache
+C:\Users\HP\PycharmProjects\Estructura de Datos\MiNuevoProyecto\obj\Debug\net9.0\MiNuevoProyecto.sourcelink.json
+C:\Users\HP\PycharmProjects\Estructura de Datos\MiNuevoProyecto\obj\Debug\net9.0\MiNuevoProyecto.dll
+C:\Users\HP\PycharmProjects\Estructura de Datos\MiNuevoProyecto\obj\Debug\net9.0\refint\MiNuevoProyecto.dll
+C:\Users\HP\PycharmProjects\Estructura de Datos\MiNuevoProyecto\obj\Debug\net9.0\MiNuevoProyecto.pdb
+C:\Users\HP\PycharmProjects\Estructura de Datos\MiNuevoProyecto\obj\Debug\net9.0\MiNuevoProyecto.genruntimeconfig.cache
+C:\Users\HP\PycharmProjects\Estructura de Datos\MiNuevoProyecto\obj\Debug\net9.0\ref\MiNuevoProyecto.dll

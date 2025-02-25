@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\Estructura de Datos\\Estructura de Datos.csproj",
-      "projectName": "Estructura de Datos",
-      "projectPath": "C:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\Estructura de Datos\\Estructura de Datos.csproj",
+      "projectUniqueName": "C:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\MiNuevoProyecto\\MiNuevoProyecto.csproj",
+      "projectName": "MiNuevoProyecto",
+      "projectPath": "C:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\MiNuevoProyecto\\MiNuevoProyecto.csproj",
       "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\Estructura de Datos\\obj\\",
+      "outputPath": "C:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\MiNuevoProyecto\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -5,46 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Launch (console)",
+            "name": ".NET Core Attach",
             "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/<target-framework>/<project-name.dll>",
-            "args": [],
-            "cwd": "${workspaceFolder}",
-            "stopAtEntry": false,
-            "console": "internalConsole"
-        },
-        {
-            "name": "C#:  Debug",
-            "type": "dotnet",
-            "request": "launch",
-            "projectPath": "${workspaceFolder}/<relative-path-to-project-folder>.csproj"
-        },
-        {
-            "name": "C#: <project-name> Debug",
-            "type": "dotnet",
-            "request": "launch",
-            "projectPath": "${workspaceFolder}/<relative-path-to-project-folder><project-name>.csproj"
-        },
-        {
-            "name": "C#: <project-name> Debug",
-            "type": "dotnet",
-            "request": "launch",
-            "projectPath": "${workspaceFolder}/<relative-path-to-project-folder><project-name>.csproj"
-        },
-        {
-            "name": "C#: <project-name> Debug",
-            "type": "dotnet",
-            "request": "launch",
-            "projectPath": "${workspaceFolder}/<relative-path-to-project-folder><project-name>.csproj"
-        },
-        {
-            "name": "C#: Estructura de Datos",
-            "type": "dotnet",
-            "request": "launch",
-            "projectPath": "${workspaceFolder}\\Estructura de Datos\\Estructura de Datos.csproj",
-            "launchConfigurationId": "TargetFramework=;Estructura de Datos"
+            "request": "attach"
         }
+
     ]
 }
