@@ -23,7 +23,7 @@ namespace TraductorBasico
                     switch (opcion)
                     {
                         case 1:
-                            TraducirFrase();
+                            TraducirFrase(Console);
                             break;
                         case 2:
                             AgregarPalabra();
@@ -93,15 +93,15 @@ namespace TraductorBasico
             inglesEspanol[palabraIngles.ToLower()] = palabraEspanol.ToLower();
         }
 
-        static void TraducirFrase()
+        static void TraducirFrase(Console console)
         {
-            Console.Write("Ingrese la frase: ");
+            console.Write("Ingrese la frase: ");
             string frase = Console.ReadLine();
             
             // Verificar si la frase está vacía
             if (string.IsNullOrWhiteSpace(frase))
             {
-                Console.WriteLine("Por favor, ingrese una frase válida.");
+                console.WriteLine("Por favor, ingrese una frase válida.");
                 return;
             }
 
@@ -178,7 +178,7 @@ namespace TraductorBasico
             }
             
             string fraseTraducida = string.Join(" ", resultado);
-            Console.WriteLine("Su frase traducida es: " + fraseTraducida);
+            console.WriteLine("Su frase traducida es: " + fraseTraducida);
         }
 
         static void AgregarPalabra()

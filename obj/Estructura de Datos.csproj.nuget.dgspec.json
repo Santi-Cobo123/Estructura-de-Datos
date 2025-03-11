@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\MiNuevoProyecto\\MiNuevoProyecto.csproj": {}
+    "C:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\Estructura de Datos.csproj": {}
   },
   "projects": {
-    "C:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\MiNuevoProyecto\\MiNuevoProyecto.csproj": {
+    "C:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\Estructura de Datos.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\MiNuevoProyecto\\MiNuevoProyecto.csproj",
-        "projectName": "MiNuevoProyecto",
-        "projectPath": "C:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\MiNuevoProyecto\\MiNuevoProyecto.csproj",
+        "projectUniqueName": "C:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\Estructura de Datos.csproj",
+        "projectName": "Estructura de Datos",
+        "projectPath": "C:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\Estructura de Datos.csproj",
         "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\MiNuevoProyecto\\obj\\",
+        "outputPath": "C:\\Users\\HP\\PycharmProjects\\Estructura de Datos\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
