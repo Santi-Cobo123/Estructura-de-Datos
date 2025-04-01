@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BuscadorVuelosBaratosSimple
+namespace BuscadorVuelosGrafos
 {
     // Clase que representa un vuelo
     public class Vuelo
@@ -19,69 +19,254 @@ namespace BuscadorVuelosBaratosSimple
         }
     }
 
-    // Simulador de base de datos (en memoria)
-    public class VuelosData
+    // Clase que representa un grafo dirigido ponderado
+    public class GrafoVuelos
     {
-        // Lista de vuelos que simula la base de datos
-        public static List<Vuelo> ObtenerVuelos()
+        // Diccionario que mapea cada ciudad a sus conexiones (destino, precio)
+        private Dictionary<string, List<(string destino, decimal precio)>> _adyacencias;
+        
+        // Lista de todos los vuelos
+        private List<Vuelo> _vuelos;
+
+        public GrafoVuelos()
         {
-            return new List<Vuelo>
+            _adyacencias = new Dictionary<string, List<(string, decimal)>>();
+            _vuelos = new List<Vuelo>();
+        }
+
+        // Agregar un vuelo al grafo
+        public void AgregarVuelo(Vuelo vuelo)
+        {
+            _vuelos.Add(vuelo);
+            
+            // Agregar el origen al diccionario si no existe
+            if (!_adyacencias.ContainsKey(vuelo.Origen))
             {
-                new Vuelo { Origen = "Madrid", Destino = "Barcelona", Fecha = DateTime.Parse("10/04/2025 08:00"), Aerolinea = "Iberia", Precio = 85.50m },
-                new Vuelo { Origen = "Madrid", Destino = "París", Fecha = DateTime.Parse("12/04/2025 10:15"), Aerolinea = "Air France", Precio = 142.75m },
-                new Vuelo { Origen = "Barcelona", Destino = "Londres", Fecha = DateTime.Parse("15/04/2025 14:30"), Aerolinea = "British Airways", Precio = 178.30m },
-                new Vuelo { Origen = "Madrid", Destino = "Berlín", Fecha = DateTime.Parse("02/04/2025 07:45"), Aerolinea = "Lufthansa", Precio = 165.00m },
-                new Vuelo { Origen = "Barcelona", Destino = "Roma", Fecha = DateTime.Parse("08/04/2025 16:00"), Aerolinea = "Alitalia", Precio = 110.25m },
-                new Vuelo { Origen = "Madrid", Destino = "Lisboa", Fecha = DateTime.Parse("05/04/2025 09:30"), Aerolinea = "TAP", Precio = 75.80m },
-                new Vuelo { Origen = "Madrid", Destino = "Amsterdam", Fecha = DateTime.Parse("20/04/2025 12:00"), Aerolinea = "KLM", Precio = 195.45m },
-                new Vuelo { Origen = "Barcelona", Destino = "Viena", Fecha = DateTime.Parse("18/04/2025 15:15"), Aerolinea = "Austrian", Precio = 188.90m },
-                new Vuelo { Origen = "Madrid", Destino = "Bruselas", Fecha = DateTime.Parse("01/04/2025 08:30"), Aerolinea = "Brussels Airlines", Precio = 89.95m },
-                new Vuelo { Origen = "Barcelona", Destino = "Múnich", Fecha = DateTime.Parse("22/04/2025 11:45"), Aerolinea = "Lufthansa", Precio = 152.60m }
-            };
+                _adyacencias[vuelo.Origen] = new List<(string, decimal)>();
+            }
+            
+            // Agregar el destino como adyacente al origen
+            _adyacencias[vuelo.Origen].Add((vuelo.Destino, vuelo.Precio));
+        }
+
+        // Obtener todas las ciudades (nodos) del grafo
+        public List<string> ObtenerCiudades()
+        {
+            HashSet<string> ciudades = new HashSet<string>();
+            
+            // Agregar todos los orígenes
+            foreach (var origen in _adyacencias.Keys)
+            {
+                ciudades.Add(origen);
+            }
+            
+            // Agregar todos los destinos
+            foreach (var adyacentes in _adyacencias.Values)
+            {
+                foreach (var (destino, _) in adyacentes)
+                {
+                    ciudades.Add(destino);
+                }
+            }
+            
+            return ciudades.ToList();
+        }
+
+        // Obtener todos los vuelos
+        public List<Vuelo> ObtenerVuelos()
+        {
+            return _vuelos;
+        }
+
+        // Buscar la ruta más barata entre dos ciudades usando el algoritmo de Dijkstra
+        public (List<string> ruta, decimal precioTotal) EncontrarRutaMasBarata(string origen, string destino)
+        {
+            // Validar que origen y destino existan
+            List<string> ciudades = ObtenerCiudades();
+            if (!ciudades.Contains(origen) || !ciudades.Contains(destino))
+            {
+                return (new List<string>(), 0); // Ruta vacía si origen o destino no existen
+            }
+
+            // Inicializar diccionarios para el algoritmo de Dijkstra
+            Dictionary<string, decimal> distancias = new Dictionary<string, decimal>();
+            Dictionary<string, string> predecesores = new Dictionary<string, string>();
+            HashSet<string> visitados = new HashSet<string>();
+
+            // Inicializar distancias a "infinito" para todas las ciudades excepto el origen
+            foreach (var ciudad in ciudades)
+            {
+                distancias[ciudad] = ciudad == origen ? 0 : decimal.MaxValue;
+                predecesores[ciudad] = null;
+            }
+
+            // Implementación del algoritmo de Dijkstra
+            while (visitados.Count < ciudades.Count)
+            {
+                // Encontrar la ciudad no visitada con la menor distancia
+                string actual = null;
+                decimal distanciaMinima = decimal.MaxValue;
+                
+                foreach (var ciudad in ciudades)
+                {
+                    if (!visitados.Contains(ciudad) && distancias[ciudad] < distanciaMinima)
+                    {
+                        actual = ciudad;
+                        distanciaMinima = distancias[ciudad];
+                    }
+                }
+
+                // Si no hay más ciudades accesibles o ya llegamos al destino, terminar
+                if (actual == null || actual == destino)
+                    break;
+
+                visitados.Add(actual);
+
+                // Si la ciudad actual tiene conexiones
+                if (_adyacencias.ContainsKey(actual))
+                {
+                    // Actualizar distancias para los vecinos no visitados
+                    foreach (var (vecino, precio) in _adyacencias[actual])
+                    {
+                        if (!visitados.Contains(vecino))
+                        {
+                            decimal nuevaDistancia = distancias[actual] + precio;
+                            
+                            if (nuevaDistancia < distancias[vecino])
+                            {
+                                distancias[vecino] = nuevaDistancia;
+                                predecesores[vecino] = actual;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Reconstruir la ruta
+            List<string> ruta = new List<string>();
+            string ciudadActual = destino;
+            
+            // Si no hay ruta, devolver lista vacía
+            if (predecesores[destino] == null && destino != origen)
+            {
+                return (new List<string>(), 0);
+            }
+
+            // Reconstruir la ruta desde el destino hasta el origen
+            while (ciudadActual != null)
+            {
+                ruta.Add(ciudadActual);
+                ciudadActual = predecesores[ciudadActual];
+            }
+            
+            // Invertir la ruta para que vaya desde el origen hasta el destino
+            ruta.Reverse();
+            
+            return (ruta, distancias[destino]);
+        }
+
+        // Obtener los vuelos específicos para una ruta
+        public List<Vuelo> ObtenerVuelosDeRuta(List<string> ruta)
+        {
+            List<Vuelo> vuelosRuta = new List<Vuelo>();
+            
+            for (int i = 0; i < ruta.Count - 1; i++)
+            {
+                string origen = ruta[i];
+                string destino = ruta[i + 1];
+                
+                // Encontrar el vuelo más barato entre estas dos ciudades
+                Vuelo vueloMasBarato = _vuelos
+                    .Where(v => v.Origen == origen && v.Destino == destino)
+                    .OrderBy(v => v.Precio)
+                    .FirstOrDefault();
+                
+                if (vueloMasBarato != null)
+                {
+                    vuelosRuta.Add(vueloMasBarato);
+                }
+            }
+            
+            return vuelosRuta;
         }
     }
 
-    // Buscador de vuelos
-    public class BuscadorVuelos
+    // Simulador de base de datos (en memoria)
+    public class VuelosData
     {
-        private List<Vuelo> _vuelos;
-
-        public BuscadorVuelos()
+        // Crear el grafo de vuelos con datos de ejemplo
+        public static GrafoVuelos CrearGrafoVuelos()
         {
-            // Carga los datos de vuelos (simulando la lectura de una BD)
-            _vuelos = VuelosData.ObtenerVuelos();
+            GrafoVuelos grafo = new GrafoVuelos();
+            
+            // Agregar vuelos al grafo
+            grafo.AgregarVuelo(new Vuelo { Origen = "Madrid", Destino = "Barcelona", Fecha = DateTime.Parse("10/04/2025 08:00"), Aerolinea = "Iberia", Precio = 85.50m });
+            grafo.AgregarVuelo(new Vuelo { Origen = "Barcelona", Destino = "Madrid", Fecha = DateTime.Parse("10/04/2025 12:00"), Aerolinea = "Iberia", Precio = 92.30m });
+            
+            grafo.AgregarVuelo(new Vuelo { Origen = "Madrid", Destino = "París", Fecha = DateTime.Parse("12/04/2025 10:15"), Aerolinea = "Air France", Precio = 142.75m });
+            grafo.AgregarVuelo(new Vuelo { Origen = "París", Destino = "Madrid", Fecha = DateTime.Parse("15/04/2025 16:30"), Aerolinea = "Air France", Precio = 156.80m });
+            
+            grafo.AgregarVuelo(new Vuelo { Origen = "Barcelona", Destino = "Londres", Fecha = DateTime.Parse("15/04/2025 14:30"), Aerolinea = "British Airways", Precio = 178.30m });
+            grafo.AgregarVuelo(new Vuelo { Origen = "Londres", Destino = "Barcelona", Fecha = DateTime.Parse("18/04/2025 10:00"), Aerolinea = "British Airways", Precio = 185.50m });
+            
+            grafo.AgregarVuelo(new Vuelo { Origen = "Madrid", Destino = "Berlín", Fecha = DateTime.Parse("02/04/2025 07:45"), Aerolinea = "Lufthansa", Precio = 165.00m });
+            grafo.AgregarVuelo(new Vuelo { Origen = "Berlín", Destino = "Madrid", Fecha = DateTime.Parse("05/04/2025 11:30"), Aerolinea = "Lufthansa", Precio = 172.40m });
+            
+            grafo.AgregarVuelo(new Vuelo { Origen = "Barcelona", Destino = "Roma", Fecha = DateTime.Parse("08/04/2025 16:00"), Aerolinea = "Alitalia", Precio = 110.25m });
+            grafo.AgregarVuelo(new Vuelo { Origen = "Roma", Destino = "Barcelona", Fecha = DateTime.Parse("12/04/2025 08:45"), Aerolinea = "Alitalia", Precio = 118.60m });
+            
+            grafo.AgregarVuelo(new Vuelo { Origen = "Madrid", Destino = "Lisboa", Fecha = DateTime.Parse("05/04/2025 09:30"), Aerolinea = "TAP", Precio = 75.80m });
+            grafo.AgregarVuelo(new Vuelo { Origen = "Lisboa", Destino = "Madrid", Fecha = DateTime.Parse("07/04/2025 18:15"), Aerolinea = "TAP", Precio = 82.40m });
+            
+            grafo.AgregarVuelo(new Vuelo { Origen = "París", Destino = "Londres", Fecha = DateTime.Parse("14/04/2025 09:00"), Aerolinea = "Air France", Precio = 125.30m });
+            grafo.AgregarVuelo(new Vuelo { Origen = "Londres", Destino = "París", Fecha = DateTime.Parse("16/04/2025 11:45"), Aerolinea = "British Airways", Precio = 132.70m });
+            
+            grafo.AgregarVuelo(new Vuelo { Origen = "París", Destino = "Roma", Fecha = DateTime.Parse("18/04/2025 13:20"), Aerolinea = "Air France", Precio = 155.90m });
+            grafo.AgregarVuelo(new Vuelo { Origen = "Roma", Destino = "París", Fecha = DateTime.Parse("22/04/2025 15:10"), Aerolinea = "Alitalia", Precio = 162.40m });
+            
+            grafo.AgregarVuelo(new Vuelo { Origen = "Londres", Destino = "Berlín", Fecha = DateTime.Parse("20/04/2025 12:00"), Aerolinea = "British Airways", Precio = 145.60m });
+            grafo.AgregarVuelo(new Vuelo { Origen = "Berlín", Destino = "Londres", Fecha = DateTime.Parse("23/04/2025 14:30"), Aerolinea = "Lufthansa", Precio = 152.90m });
+            
+            grafo.AgregarVuelo(new Vuelo { Origen = "Lisboa", Destino = "Barcelona", Fecha = DateTime.Parse("10/04/2025 07:30"), Aerolinea = "TAP", Precio = 120.40m });
+            grafo.AgregarVuelo(new Vuelo { Origen = "Barcelona", Destino = "Lisboa", Fecha = DateTime.Parse("13/04/2025 17:00"), Aerolinea = "Iberia", Precio = 128.70m });
+            
+            return grafo;
+        }
+    }
+
+    // Buscador de vuelos con grafos
+    public class BuscadorVuelosGrafos
+    {
+        private GrafoVuelos _grafo;
+
+        public BuscadorVuelosGrafos()
+        {
+            // Crear el grafo con los datos de vuelos
+            _grafo = VuelosData.CrearGrafoVuelos();
         }
 
-        // Método para buscar vuelos según criterios
-        public List<Vuelo> BuscarVuelos(string origen = null, string destino = null, 
-                                        decimal? precioMaximo = null, int limite = 5)
+        // Obtener lista de ciudades disponibles
+        public List<string> ObtenerCiudades()
         {
-            // Filtrar vuelos según los criterios
-            var consulta = _vuelos.AsQueryable();
-
-            if (!string.IsNullOrEmpty(origen))
-                consulta = consulta.Where(v => v.Origen.Equals(origen, StringComparison.OrdinalIgnoreCase));
-
-            if (!string.IsNullOrEmpty(destino))
-                consulta = consulta.Where(v => v.Destino.Equals(destino, StringComparison.OrdinalIgnoreCase));
-
-            if (precioMaximo.HasValue)
-                consulta = consulta.Where(v => v.Precio <= precioMaximo.Value);
-
-            // Ordenar por precio (más baratos primero) y limitar resultados
-            return consulta.OrderBy(v => v.Precio).Take(limite).ToList();
+            return _grafo.ObtenerCiudades();
         }
 
-        // Método para sugerir destinos económicos desde un origen
-        public Dictionary<string, decimal> DestinosEconomicos(string origen, int cantidad = 3)
+        // Buscar vuelos directos
+        public List<Vuelo> BuscarVuelosDirectos(string origen, string destino)
         {
-            return _vuelos
-                .Where(v => v.Origen.Equals(origen, StringComparison.OrdinalIgnoreCase))
-                .GroupBy(v => v.Destino)
-                .Select(g => new { Destino = g.Key, PrecioMinimo = g.Min(v => v.Precio) })
-                .OrderBy(d => d.PrecioMinimo)
-                .Take(cantidad)
-                .ToDictionary(d => d.Destino, d => d.PrecioMinimo);
+            return _grafo.ObtenerVuelos()
+                .Where(v => v.Origen == origen && v.Destino == destino)
+                .OrderBy(v => v.Precio)
+                .ToList();
+        }
+
+        // Buscar la ruta más barata entre dos ciudades (posiblemente con escalas)
+        public (List<string> ciudades, List<Vuelo> vuelos, decimal precioTotal) EncontrarRutaMasBarata(string origen, string destino)
+        {
+            var (ruta, precio) = _grafo.EncontrarRutaMasBarata(origen, destino);
+            List<Vuelo> vuelos = _grafo.ObtenerVuelosDeRuta(ruta);
+            
+            return (ruta, vuelos, precio);
         }
     }
 
@@ -89,16 +274,17 @@ namespace BuscadorVuelosBaratosSimple
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("=== BUSCADOR DE VUELOS BARATOS ===\n");
+            Console.WriteLine("=== BUSCADOR DE VUELOS BARATOS CON GRAFOS ===\n");
             
-            BuscadorVuelos buscador = new BuscadorVuelos();
+            BuscadorVuelosGrafos buscador = new BuscadorVuelosGrafos();
             
             while (true)
             {
                 Console.WriteLine("Seleccione una opción:");
-                Console.WriteLine("1. Buscar vuelos baratos");
-                Console.WriteLine("2. Ver destinos económicos");
-                Console.WriteLine("3. Salir");
+                Console.WriteLine("1. Ver ciudades disponibles");
+                Console.WriteLine("2. Buscar vuelos directos");
+                Console.WriteLine("3. Encontrar ruta más barata (con posibles escalas)");
+                Console.WriteLine("4. Salir");
                 Console.Write("> ");
                 
                 string opcion = Console.ReadLine();
@@ -106,12 +292,15 @@ namespace BuscadorVuelosBaratosSimple
                 switch (opcion)
                 {
                     case "1":
-                        BuscarVuelosBaratos(buscador);
+                        MostrarCiudades(buscador);
                         break;
                     case "2":
-                        MostrarDestinosEconomicos(buscador);
+                        BuscarVuelosDirectos(buscador);
                         break;
                     case "3":
+                        EncontrarRutaMasBarata(buscador);
+                        break;
+                    case "4":
                         return;
                     default:
                         Console.WriteLine("Opción no válida.\n");
@@ -120,61 +309,70 @@ namespace BuscadorVuelosBaratosSimple
             }
         }
         
-        static void BuscarVuelosBaratos(BuscadorVuelos buscador)
+        static void MostrarCiudades(BuscadorVuelosGrafos buscador)
         {
-            Console.Write("\nCiudad de origen (dejar vacío para todos): ");
-            string origen = Console.ReadLine();
+            List<string> ciudades = buscador.ObtenerCiudades();
             
-            Console.Write("Ciudad de destino (dejar vacío para todos): ");
-            string destino = Console.ReadLine();
-            
-            Console.Write("Precio máximo (dejar vacío para ignorar): ");
-            string precioStr = Console.ReadLine();
-            decimal? precioMaximo = !string.IsNullOrEmpty(precioStr) ? 
-                                    decimal.Parse(precioStr) : (decimal?)null;
-            
-            var resultados = buscador.BuscarVuelos(origen, destino, precioMaximo);
-            
-            Console.WriteLine("\nResultados encontrados:");
-            if (resultados.Count == 0)
+            Console.WriteLine("\nCiudades disponibles en el sistema:");
+            foreach (var ciudad in ciudades)
             {
-                Console.WriteLine("No se encontraron vuelos con los criterios especificados.");
+                Console.WriteLine($"- {ciudad}");
             }
-            else
-            {
-                foreach (var vuelo in resultados)
-                {
-                    Console.WriteLine(vuelo);
-                }
-            }
-            
             Console.WriteLine();
         }
         
-        static void MostrarDestinosEconomicos(BuscadorVuelos buscador)
+        static void BuscarVuelosDirectos(BuscadorVuelosGrafos buscador)
         {
             Console.Write("\nCiudad de origen: ");
             string origen = Console.ReadLine();
             
-            if (string.IsNullOrEmpty(origen))
-            {
-                Console.WriteLine("Debe especificar una ciudad de origen.\n");
-                return;
-            }
+            Console.Write("Ciudad de destino: ");
+            string destino = Console.ReadLine();
             
-            var destinos = buscador.DestinosEconomicos(origen);
+            var vuelos = buscador.BuscarVuelosDirectos(origen, destino);
             
-            Console.WriteLine($"\nDestinos más económicos desde {origen}:");
-            if (destinos.Count == 0)
+            Console.WriteLine($"\nVuelos directos de {origen} a {destino}:");
+            if (vuelos.Count == 0)
             {
-                Console.WriteLine($"No se encontraron vuelos desde {origen}.");
+                Console.WriteLine("No se encontraron vuelos directos para la ruta especificada.");
             }
             else
             {
-                foreach (var destino in destinos)
+                foreach (var vuelo in vuelos)
                 {
-                    Console.WriteLine($"{destino.Key}: ${destino.Value:F2}");
+                    Console.WriteLine(vuelo);
                 }
+            }
+            Console.WriteLine();
+        }
+        
+        static void EncontrarRutaMasBarata(BuscadorVuelosGrafos buscador)
+        {
+            Console.Write("\nCiudad de origen: ");
+            string origen = Console.ReadLine();
+            
+            Console.Write("Ciudad de destino: ");
+            string destino = Console.ReadLine();
+            
+            var (ciudades, vuelos, precioTotal) = buscador.EncontrarRutaMasBarata(origen, destino);
+            
+            if (ciudades.Count <= 1)
+            {
+                Console.WriteLine($"\nNo se encontró ninguna ruta entre {origen} y {destino}.");
+                Console.WriteLine();
+                return;
+            }
+            
+            Console.WriteLine($"\nRuta más barata de {origen} a {destino}:");
+            Console.WriteLine($"Precio total: ${precioTotal:F2}");
+            Console.WriteLine("Itinerario:");
+            
+            Console.WriteLine($"Ruta: {string.Join(" -> ", ciudades)}");
+            Console.WriteLine("\nVuelos:");
+            
+            foreach (var vuelo in vuelos)
+            {
+                Console.WriteLine(vuelo);
             }
             
             Console.WriteLine();
